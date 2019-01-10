@@ -1,208 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <title>Document</title>
-  <style>
-    /* body {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      /* body {
       font-size: 20px;
     } */
-    table {
-      margin-left: auto;
-      margin-right: auto;
-    }
+      table {
+        margin-left: auto;
+        margin-right: auto;
+      }
 
-    td {
-      /* display: block; */
-      border: 2px solid black;
-      width: 150px;
-      height: 150px;
-      text-align: center;
-      font-size: 80px;
-      font-family: arial;
-      /* float: left; */
-    }
+      td {
+        border: 2px solid black;
+        width: 150px;
+        height: 150px;
+        text-align: center;
+        font-size: 80px;
+        font-family: arial;
+        /* float: left; */
+      }
 
-    div#stat {
-      text-align: center;
-      font-size: 20px;
-      /* margin-left: auto;
+      div#stat {
+        text-align: center;
+        font-size: 20px;
+        /* margin-left: auto;
         margin-right: auto; */
-    }
+      }
 
-    button {
-      display: block;
-      font-size: 18px;
-      text-align: center;
-      margin-left: auto;
-      margin-right: auto;
-    }
-  </style>
-</head>
+      button {
+        display: block;
+        font-size: 18px;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    </style>
+  </head>
 
-<body>
-  <table>
-    <tr>
-      <td data-id="1" data-choice="" data-mark=""></td>
-      <td data-id="2" data-choice="" data-mark=""></td>
-      <td data-id="3" data-choice="" data-mark=""></td>
-    </tr>
-    <tr>
-      <td data-id="4" data-choice="" data-mark=""></td>
-      <td data-id="5" data-choice="" data-mark=""></td>
-      <td data-id="6" data-choice="" data-mark=""></td>
-    </tr>
-    <tr>
-      <td data-id="7" data-choice="" data-mark=""></td>
-      <td data-id="8" data-choice="" data-mark=""></td>
-      <td data-id="9" data-choice="" data-mark=""></td>
-    </tr>
-  </table>
+  <body>
+    <table>
+      <tr>
+        <td data-id="1" data-choice="" data-mark=""></td>
+        <td data-id="2" data-choice="" data-mark=""></td>
+        <td data-id="3" data-choice="" data-mark=""></td>
+      </tr>
+      <tr>
+        <td data-id="4" data-choice="" data-mark=""></td>
+        <td data-id="5" data-choice="" data-mark=""></td>
+        <td data-id="6" data-choice="" data-mark=""></td>
+      </tr>
+      <tr>
+        <td data-id="7" data-choice="" data-mark=""></td>
+        <td data-id="8" data-choice="" data-mark=""></td>
+        <td data-id="9" data-choice="" data-mark=""></td>
+      </tr>
+    </table>
 
-  <div id="stat"></div>
-  <button>Wznów</button>
+    <div id="stat"></div>
+    <button>Wznów</button>
 
-  <script>
-    const tr = document.querySelectorAll("tr");
-    const cells = document.querySelectorAll("td");
-    const stat = document.querySelector("#stat");
-    const btn = document.querySelector("button");
+    <script>
+      const tr = document.querySelectorAll("tr");
+      const cells = document.querySelectorAll("td");
+      const stat = document.querySelector("#stat");
+      const btn = document.querySelector("button");
 
-    nrSign = true;
-    let choiceMark = "";
-    let wynik = 0;
-    let winCircle = 0;
-    let winMultiply = 0;
-    let draw = 0;
+      nrSign = true;
+      let choiceMark = "";
+      let wynik = 0;
+      let winCircle = 0;
+      let winMultiply = 0;
+      let draw = 0;
 
-    function choice() {
-      if (this.dataset.mark == "done") {
-        return;
-      } else {
-        if (nrSign == true) {
-          this.textContent = "O";
-          this.dataset.choice = "circle";
-          choiceMark = "circle";
-        } else if (nrSign == false) {
-          this.textContent = "X";
-          this.dataset.choice = "multiply";
-          choiceMark = "multiply";
-        }
-
-        nrSign = !nrSign;
-        this.dataset.mark = "done";
-        console.log(this.dataset.choice);
-
-        function result() {
-          if (choiceMark == "circle") {
-            console.log("Wygrał gracz grający kółkiem");
-            wynik = 1; //flaga, wartość potrzebna do sprawdzenia na końcu czy wychodzi remis
-            winCircle++;
-            cells.forEach(cell => (cell.dataset.mark = "done"));
-            statGame();
-
-            return;
-          } else if (choiceMark == "multiply") {
-            console.log("Wygrał gracz grający krzyżykiem");
-            wynik = 1;
-            winMultiply++;
-            cells.forEach(cell => (cell.dataset.mark = "done"));
-            statGame();
-            return;
-          }
-        }
-
-        function statGame() {
-          stat.innerHTML = `WYNIKI:<br>kółko: ${winCircle} <br>krzyżyk: ${winMultiply} <br>remis: ${draw}`;
-        }
-
-        if (cells[0].dataset.choice == choiceMark) {
-          if (
-            cells[1].dataset.choice == choiceMark &&
-            cells[2].dataset.choice == choiceMark
-          ) {
-            result();
-          } else if (
-            cells[3].dataset.choice == choiceMark &&
-            cells[6].dataset.choice == choiceMark
-          ) {
-            result();
-          }
-        }
-
-        if (cells[4].dataset.choice == choiceMark) {
-          if (
-            cells[1].dataset.choice == choiceMark &&
-            cells[7].dataset.choice == choiceMark
-          ) {
-            result();
-          } else if (
-            cells[3].dataset.choice == choiceMark &&
-            cells[5].dataset.choice == choiceMark
-          ) {
-            result();
-          } else if (
-            cells[0].dataset.choice == choiceMark &&
-            cells[8].dataset.choice == choiceMark
-          ) {
-            result();
-          } else if (
-            cells[2].dataset.choice == choiceMark &&
-            cells[6].dataset.choice == choiceMark
-          ) {
-            result();
-          }
-        }
-        if (cells[8].dataset.choice == choiceMark) {
-          if (
-            cells[6].dataset.choice == choiceMark &&
-            cells[7].dataset.choice == choiceMark
-          ) {
-            result();
-          } else if (
-            cells[2].dataset.choice == choiceMark &&
-            cells[5].dataset.choice == choiceMark
-          ) {
-            result();
-          }
-        }
-
-        if (wynik == 1) {
+      function choice() {
+        if (this.dataset.mark == "done") {
           return;
         } else {
-          let array = [...cells];
-          let arrayFreeCells = array.filter(
-            arr => arr.dataset.mark !== "done"
-          );
-          if (arrayFreeCells.length == 0) {
-            console.log("remis");
-            draw++;
-            statGame();
+          if (nrSign == true) {
+            this.textContent = "O";
+            this.dataset.choice = "circle";
+            choiceMark = "circle";
+          } else if (nrSign == false) {
+            this.textContent = "X";
+            this.dataset.choice = "multiply";
+            choiceMark = "multiply";
+          }
+
+          nrSign = !nrSign;
+          this.dataset.mark = "done";
+          console.log(this.dataset.choice);
+
+          function result() {
+            if (choiceMark == "circle") {
+              console.log("Wygrał gracz grający kółkiem");
+              wynik = 1; //flaga, wartość potrzebna do sprawdzenia na końcu czy wychodzi remis
+              winCircle++;
+              cells.forEach(cell => (cell.dataset.mark = "done"));
+              statGame();
+
+              return;
+            } else if (choiceMark == "multiply") {
+              console.log("Wygrał gracz grający krzyżykiem");
+              wynik = 1;
+              winMultiply++;
+              cells.forEach(cell => (cell.dataset.mark = "done"));
+              statGame();
+              return;
+            }
+          }
+
+          function statGame() {
+            stat.innerHTML = `WYNIKI:<br>kółko: ${winCircle} <br>krzyżyk: ${winMultiply} <br>remis: ${draw}`;
+          }
+
+          if (cells[0].dataset.choice == choiceMark) {
+            if (
+              cells[1].dataset.choice == choiceMark &&
+              cells[2].dataset.choice == choiceMark
+            ) {
+              result();
+            } else if (
+              cells[3].dataset.choice == choiceMark &&
+              cells[6].dataset.choice == choiceMark
+            ) {
+              result();
+            }
+          }
+
+          if (cells[4].dataset.choice == choiceMark) {
+            if (
+              cells[1].dataset.choice == choiceMark &&
+              cells[7].dataset.choice == choiceMark
+            ) {
+              result();
+            } else if (
+              cells[3].dataset.choice == choiceMark &&
+              cells[5].dataset.choice == choiceMark
+            ) {
+              result();
+            } else if (
+              cells[0].dataset.choice == choiceMark &&
+              cells[8].dataset.choice == choiceMark
+            ) {
+              result();
+            } else if (
+              cells[2].dataset.choice == choiceMark &&
+              cells[6].dataset.choice == choiceMark
+            ) {
+              result();
+            }
+          }
+          if (cells[8].dataset.choice == choiceMark) {
+            if (
+              cells[6].dataset.choice == choiceMark &&
+              cells[7].dataset.choice == choiceMark
+            ) {
+              result();
+            } else if (
+              cells[2].dataset.choice == choiceMark &&
+              cells[5].dataset.choice == choiceMark
+            ) {
+              result();
+            }
+          }
+
+          if (wynik == 1) {
             return;
+          } else {
+            let array = [...cells];
+            let arrayFreeCells = array.filter(
+              arr => arr.dataset.mark !== "done"
+            );
+            if (arrayFreeCells.length == 0) {
+              console.log("remis");
+              draw++;
+              statGame();
+              return;
+            }
           }
         }
       }
-    }
 
-    function reset() { //czyszczenie planszy i zmiennych
-      cells.forEach(
-        cell => (
-          (cell.textContent = ""),
-          (cell.dataset.mark = ""),
-          (cell.dataset.choice = "")
-        )
-      );
-      wynik = 0;
-      nrSign = true;
-    }
+      function reset() {
+        //czyszczenie planszy i zmiennych
+        cells.forEach(
+          cell => (
+            (cell.textContent = ""),
+            (cell.dataset.mark = ""),
+            (cell.dataset.choice = "")
+          )
+        );
+        wynik = 0;
+        nrSign = true;
+      }
 
-    cells.forEach(cell => cell.addEventListener("click", choice));
+      cells.forEach(cell => cell.addEventListener("click", choice));
 
-    btn.addEventListener("click", reset);
-  </script>
-</body>
-
+      btn.addEventListener("click", reset);
+    </script>
+  </body>
 </html>
